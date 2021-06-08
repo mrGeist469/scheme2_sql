@@ -5,33 +5,42 @@ create table if not exists Styles (
 
 create table if not exists Executors (
     id serial primary key,
-    styles_id integer references Styles (id),
-    executors_name varchar (80) not null unique
+    executor_name varchar (80) not null unique
+);
+
+create table if not exists Artists and styles (
+    id serial primary key,
+    style_id integer references Styles (id),
+    executor_id integer references Executors (id)
 );
 
 create table if not exists Albums (
     id serial primary key,
-    albums_name varchar (80) not null,
+    album_name varchar (80) not null,
     release_year integer not null
 );
 
-create table if not exists Table_of_conectionreferences (
+create table if not exists Artists and albums (
     id serial primary key,
-    styles_id integer references Styles (id),
-    executors_id integer references Executors (id),
-    albums_id integer references Albums (id)
+    executor_id integer references Executors (id),
+    album_id integer references Albums (id)
 );
 
-create table if not exists Track_names (
+create table if not exists Tracks (
     id serial primary key,
-    albums_id integer references Albums (id),
+    album_id integer references Albums (id),
     track_name varchar (80) not null,
     track_duration integer not null
 );
 
 create table if not exists Collections(
     id serial primary key,
-    albums_id integer references Albums (id),
-    collections_name varchar (80) not null,
+    collection_name varchar (80) not null,
     release_year integer not null
+);
+
+create table if not exists Collections and albums (
+    id serial primary key,
+    collection_id integer references Collections (id),
+    track_id integer references Tracks (id)
 );
